@@ -12,7 +12,12 @@
 </div>
 <div>
 <%= f.label :password, "密碼" %>
-<%= f.text_field :password %>
+<%= f.password_field :password %>
+</div>
+
+<div>
+<%= f.label :password_confirmation, "密碼確認" %>
+<%= f.password_field :password_confirmation %>
 </div>
 
 <%= f.submit "註冊帳號" %>

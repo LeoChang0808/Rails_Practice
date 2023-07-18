@@ -19,7 +19,12 @@ Rails.application.routes.draw do
 
   delete '/articles/:id', to: 'articles#destroy'
 
-  resource :users, except:[:destroy, :show]
+  resource :users, except:[:destroy, :show] do
+    collection do
+      get :login
+      post :logining
+    end 
+  end
 
   get '/about', to: 'pages#about'
 end
