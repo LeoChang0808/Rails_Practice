@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+    
     validates :password, confirmation: true
 
     validates :email, presence: true, 
@@ -10,17 +11,18 @@ class User < ApplicationRecord
 
     before_create :encrypt_password
 
-    def encrypt_password  
+    def encrypt_password
         pw = "x#{self.password}y".reverse
         self.password = Digest::SHA1.hexdigest(pw)
     end
 
     def self.login( email, password )
-        return nill if email.empty? or password.empty?
+        return nil if email.empty? or password.empty?
 
-        password = "x#{password}y".reverse
-        password = Digest::SHA1.hexdigest(password)
+        password = Digest::SHA1.hexdigest("x#{password}y".reverse)
 
         find_by(email: email, password: password)
     end
 end
+
+

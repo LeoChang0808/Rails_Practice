@@ -16,7 +16,6 @@ class UsersController < ApplicationController
     end
     
     def logining
-
         user = User.login(params[:user][:email], params[:user][:password])
           
         if user
@@ -24,11 +23,8 @@ class UsersController < ApplicationController
         else
             redirect_to login_users_path, alert: '登入失敗'
         end
-        
-      end
+    end
     
-
-
     def user_params
         params.require(:user).permit(:user_name, :email, :password, :password_confirmation)
     end
