@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
     def new
         @user = User.new
     end
@@ -17,7 +18,9 @@ class UsersController < ApplicationController
     
     def logining
         user = User.login(params[:user][:email], params[:user][:password])
-          
+        
+        session[:member] = user.id
+
         if user
             redirect_to root_path, notice: '登入成功'
         else
@@ -25,6 +28,12 @@ class UsersController < ApplicationController
         end
     end
     
+    def logout
+        session[:member] = nil
+        redirect_to root_path, notice:"登出成功囉 ! "
+    end
+    
+
     def user_params
         params.require(:user).permit(:user_name, :email, :password, :password_confirmation)
     end

@@ -1,7 +1,10 @@
 class ArticlesController < ApplicationController
 
-    before_action :set_article, only: [ :show, :edit, :update, :destroy ]
+    before_action :set_article, only: [ :show ]
+    before_action :authenticate_user!, except: [ :index, :show ]
+    before_action :set_user_article, only: [ :edit, :update, :destroy ]
     # before_action :set_article, except: [ :index, :new, :create ]
+
 
     def index
         @articles = Article.order(id: :desc)
@@ -16,17 +19,14 @@ class ArticlesController < ApplicationController
     end
 
     def create
-        @article = Article.new(article_params) 
+        # @article = Article.new(article_params) 
+        @article = current_user.articles.new(article_params) 
 
         if @article.save
             redirect_to "/articles", notice:"文章新增成功囉 ! "
         else
             render :new
-            # redirect_to "/articles/new", alert:"文章新增失敗囉 QQ ! "
         end
-        # flash[:notice] = "文章新增成功囉 ! "
-        # redirect_to "/articles", notice:"文章新增成功囉 ! "
-        # render html: params
     end
 
     def edit
@@ -48,9 +48,14 @@ class ArticlesController < ApplicationController
     private
     def article_params
         params.require(:article).permit(:title, :context, :sub_title)
+                                # .merge(user: current_user)
     end
 
     def set_article
         @article = Article.find(params[:id])
+    end
+
+    def set_user_article
+        @article = current_user.articles.find(params[:id])
     end
 end
