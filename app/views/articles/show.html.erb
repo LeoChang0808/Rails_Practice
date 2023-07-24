@@ -1,4 +1,30 @@
-<h1><%= @article.title %></h1>
+<h1>
+    <div data-controller="hello" data-action="over5@window->hello#change">X</div>
+    <%= @article.title %>
+    <div data-controller="like" >
+        <input type="button" value="讚" data-action="click->like#hi">
+        <span data-like-target="count">0</span>
+    </div>
+</h1>
 <article>
     <p><%= @article.context %></p>
 </article>
+
+<hr>
+
+<h2>留言</h2>
+<%= form_with( model:@comment ,url: article_comments_path(@article), data: { turbo: false } ) do |f| %>
+    <div>
+        <%= f.label :content, "留言" %><br>
+        <%= f.text_area :content %>
+    </div>
+    <%= f.submit "新增留言" %>
+<% end %>
+
+<ul>
+    <% @comments.each do |comment| %>
+        <li>
+            <%= comment.content %>(<%= comment.created_at %>)
+        </li>
+    <% end %>
+</ul>
