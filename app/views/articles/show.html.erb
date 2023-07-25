@@ -1,9 +1,7 @@
 <h1>
-    <div data-controller="hello" data-action="over5@window->hello#change">X</div>
     <%= @article.title %>
-    <div data-controller="like" >
-        <input type="button" value="讚" data-action="click->like#hi">
-        <span data-like-target="count">0</span>
+    <div data-controller="like" data-id="<%= @article.id %>" data-liked="<%= current_user.liked?(@article) %>">
+        <input type="button" value="讚" data-action="click->like#toggle" data-like-target="likebtn">
     </div>
 </h1>
 <article>
